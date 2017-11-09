@@ -19,7 +19,7 @@ Configuration InstallIISRoles
         Name   = "NewAppPool"
         Ensure = "Present"
         State  = "Started"
-        DependsOn = @('[WindowsFeature]IIS')
+        DependsOn = @('[WindowsFeature]Web-Server')
     }
 
     xWebsite IIS_NewWebsite
@@ -29,7 +29,7 @@ Configuration InstallIISRoles
         State           = "Started"
         PhysicalPath    = "c:\inetpub\wwwroot"
         ApplicationPool = "NewAppPool"
-        DependsOn = @('[WindowsFeature]IIS')
+        DependsOn = @('[WindowsFeature]Web-Server')
         BindingInfo = @(
             MSFT_xWebBindingInformation
             {
@@ -46,7 +46,7 @@ Configuration InstallIISRoles
         WebAppPool =  "NewAppPool"
         PhysicalPath = "c:\inetpub\wwwroot"
         Ensure = "Present"
-        DependsOn = @('[WindowsFeature]IIS')
+        DependsOn = @('[WindowsFeature]Web-Server')
     }
     # Install IIS Remote Management
     WindowsFeature Management
@@ -54,7 +54,7 @@ Configuration InstallIISRoles
  
         Name = 'Web-Mgmt-Service'
         Ensure = 'Present'
-        DependsOn = @('[WindowsFeature]IIS')
+        DependsOn = @('[WindowsFeature]Web-Server')
     }
     # Enable IIS Remote Management
     Registry RemoteManagement
@@ -63,7 +63,7 @@ Configuration InstallIISRoles
         ValueName = 'EnableRemoteManagement'
         ValueType = 'Dword'
         ValueData = '1'
-        DependsOn = @('[WindowsFeature]IIS','[WindowsFeature]Management')
+        DependsOn = @('[WindowsFeature]Web-Server','[WindowsFeature]Management')
     }
     # Start Remote Management Service
     Service StartWMSVC 
