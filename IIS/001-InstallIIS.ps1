@@ -22,14 +22,14 @@ Configuration InstallIISRoles
         Ensure = "Present"
         Name = "Web-Asp-Net45"
     }
-
+    # Required for Webdeploy
     WindowsFeature IISManagementTools
     {
         Ensure = "Present"
         Name = "Web-Mgmt-Tools"
         DependsOn= "[WindowsFeature]IIS" 
     }
-
+    # Create New Application Pool
     xWebAppPool IIS_NewAppPool
     {
         Name   = "NewAppPool"
@@ -64,6 +64,7 @@ Configuration InstallIISRoles
         Ensure = "Present"
         DependsOn = @('[WindowsFeature]IIS')
     }
+    # Install IIS Remote Management
     WindowsFeature Management
     {
  
@@ -71,7 +72,7 @@ Configuration InstallIISRoles
         Ensure = 'Present'
         DependsOn = @('[WindowsFeature]IIS')
     }
- 
+    # Enable IIS Remote Management
     Registry RemoteManagement
     {
         Key = 'HKLM:\SOFTWARE\Microsoft\WebManagement\Server'
@@ -80,7 +81,7 @@ Configuration InstallIISRoles
         ValueData = '1'
         DependsOn = @('[WindowsFeature]IIS','[WindowsFeature]Management')
     }
- 
+    # Start Remote Management Service
     Service StartWMSVC 
     {
         Name = 'WMSVC'
